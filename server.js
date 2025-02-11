@@ -1,5 +1,3 @@
-// Use routes
-app.use('/api', todoRouter);
 import { todoRouter } from './todos.js';
 import express from 'express';
 import mongoose from 'mongoose';
@@ -18,7 +16,8 @@ app.use(express.json());
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.error('MongoDB connection error:', err));
-
+// Use routes
+app.use('/api', todoRouter);
 // Basic route
 app.get('/', (req, res) => {
     res.sendFile(join(__dirname, 'client/index.html'));
