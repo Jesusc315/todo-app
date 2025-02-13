@@ -1,0 +1,32 @@
+<!-- client/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo App</title>
+  <script>
+    async function fetchTodo() {
+      const id = document.getElementById('todoId').value;
+      const response = await fetch(`/todos/${id}`);
+      const data = await response.json();
+      document.getElementById('todoDetails').innerText = JSON.stringify(data, null, 2);
+    }
+
+    async function deleteTodo() {
+      const id = document.getElementById('todoId').value;
+      const response = await fetch(`/todos/${id}`, { method: 'DELETE' });
+      const data = await response.json();
+      document.getElementById('todoDetails').innerText = data.message || 'Todo not found';
+    }
+  </script>
+</head>
+<body>
+  <h1>Todo App</h1>
+  <input type="text" id="todoId" placeholder="Enter Todo ID" />
+  <button onclick="fetchTodo()">Find Todo</button>
+  <button onclick="deleteTodo()">Delete Todo</button>
+
+  <pre id="todoDetails"></pre>
+</body>
+</html>

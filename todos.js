@@ -32,4 +32,30 @@ router.post('/todos', async (req, res) => {
     }
 });
 
+// GET a specific todo by ID
+router.get('/todos/:id', async (req, res) => {
+    try {
+        const todo = await Todo.findById(req.params.id);
+        if (!todo) {
+            return res.status(404).json({ message: 'Todo not found' });
+        }
+        res.json(todo);
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching todo' });
+    }
+});
+
+// DELETE a specific todo by ID
+router.delete('/todos/:id', async (req, res) => {
+    try {
+        const todo = await Todo.findByIdAndDelete(req.params.id);
+        if (!todo) {
+            return res.status(404).json({ message: 'Todo not found' });
+        }
+        res.json({ message: 'Todo deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error deleting todo' });
+    }
+});
+
 export { router as todoRouter };
