@@ -8,15 +8,19 @@
   <script>
     async function fetchTodo() {
       const id = document.getElementById('todoId').value;
+      console.log(`Fetching todo with ID: ${id}`);
       const response = await fetch(`/todos/${id}`);
       const data = await response.json();
+      console.log(`Todo fetched:`, data);
       document.getElementById('todoDetails').innerText = JSON.stringify(data, null, 2);
     }
 
     async function deleteTodo() {
       const id = document.getElementById('todoId').value;
+      console.log(`Deleting todo with ID: ${id}`);
       const response = await fetch(`/todos/${id}`, { method: 'DELETE' });
       const data = await response.json();
+      console.log(`Todo deleted:`, data);
       document.getElementById('todoDetails').innerText = data.message || 'Todo not found';
     }
   </script>
