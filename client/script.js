@@ -20,9 +20,36 @@ function displayTodos(todos) {
     todos.forEach(todo => {
         const li = document.createElement('li');
         li.textContent = todo.title; // Assuming each todo has a 'title' property
+        
+        // Create a delete button for each todo
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.style.marginLeft = '10px'; // Add some space between the title and button
+
+        // Add an event listener to the delete button
+        deleteButton.addEventListener('click', async () => {
+            try {
+                const response = await fetch(`/api/todos/${todo._id}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    alert('Todo deleted');
+                    fetchTodos(); // Re-fetch the todos after deletion
+                } else {
+                    alert('Failed to delete todo');
+                }
+            } catch (error) {
+                console.error('Error deleting todo:', error);
+            }
+        });
+
+        // Append the delete button to the list item
+        li.appendChild(deleteButton);
         todoList.appendChild(li);
     });
 }
+
 
 // Handle form submission
 todoForm.addEventListener('submit', async (e) => {

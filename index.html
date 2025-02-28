@@ -29,8 +29,9 @@
   <h1>Todo App</h1>
   <input type="text" id="todoId" placeholder="Enter Todo ID" />
   <button onclick="fetchTodo()">Find Todo</button>
+  <form action="`/todos/${id}`" method="POST">
   <button onclick="deleteTodo()">Delete Todo</button>
-
+</form>
   <pre id="todoDetails"></pre>
 </body>
 </html>
