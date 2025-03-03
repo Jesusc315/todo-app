@@ -6,6 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Todo App</title>
   <script>
+    function showLoading(){
+      document.getElementById('loading').style.display = 'Block';
+    }
+    function hideLoading(){
+      document.getElementById('loading').style.display = 'none';
+    }
+
     async function fetchTodo() {
       const id = document.getElementById('todoId').value;
       console.log(`Fetching todo with ID: ${id}`);
@@ -29,6 +36,7 @@
   <h1>Todo App</h1>
   <input type="text" id="todoId" placeholder="Enter Todo ID" />
   <button onclick="fetchTodo()">Find Todo</button>
+  <div id="loading">Loading...</div>
   <form action="`/todos/${id}`" method="POST">
   <button onclick="deleteTodo()">Delete Todo</button>
 </form>
