@@ -1,34 +1,53 @@
-<!-- client/index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Todo App</title>
-  <script>
-    function showLoading(){
-      document.getElementById('loading').style.display = 'Block';
+  <style>
+    #loading {
+      display: none;
     }
-    function hideLoading(){
+  </style>
+  <script>
+    function showLoading() {
+      document.getElementById('loading').style.display = 'block';
+    }
+
+    function hideLoading() {
       document.getElementById('loading').style.display = 'none';
     }
 
     async function fetchTodo() {
       const id = document.getElementById('todoId').value;
       console.log(`Fetching todo with ID: ${id}`);
-      const response = await fetch(`/todos/${id}`);
-      const data = await response.json();
-      console.log(`Todo fetched:`, data);
-      document.getElementById('todoDetails').innerText = JSON.stringify(data, null, 2);
+      showLoading();
+      try {
+        const response = await fetch(`/todos/${id}`);
+        const data = await response.json();
+        console.log(`Todo fetched:`, data);
+        document.getElementById('todoDetails').innerText = JSON.stringify(data, null, 2);
+      } catch (error) {
+        console.error('Error fetching todo:', error);
+      } finally {
+        hideLoading();
+      }
     }
 
     async function deleteTodo() {
       const id = document.getElementById('todoId').value;
       console.log(`Deleting todo with ID: ${id}`);
-      const response = await fetch(`/todos/${id}`, { method: 'DELETE' });
-      const data = await response.json();
-      console.log(`Todo deleted:`, data);
-      document.getElementById('todoDetails').innerText = data.message || 'Todo not found';
+      showLoading();
+      try {
+        const response = await fetch(`/todos/${id}`, { method: 'DELETE' });
+        const data = await response.json();
+        console.log(`Todo deleted:`, data);
+        document.getElementById('todoDetails').innerText = data.message || 'Todo not found';
+      } catch (error) {
+        console.error('Error deleting todo:', error);
+      } finally {
+        hideLoading();
+      }
     }
   </script>
 </head>
@@ -36,10 +55,8 @@
   <h1>Todo App</h1>
   <input type="text" id="todoId" placeholder="Enter Todo ID" />
   <button onclick="fetchTodo()">Find Todo</button>
-  <div id="loading">Loading...</div>
-  <form action="`/todos/${id}`" method="POST">
   <button onclick="deleteTodo()">Delete Todo</button>
-</form>
+  <div id="loading">Loading...</div>
   <pre id="todoDetails"></pre>
 </body>
 </html>
