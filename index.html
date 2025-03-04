@@ -10,14 +10,6 @@
     }
   </style>
   <script>
-    function showLoading() {
-      document.getElementById('loading').style.display = 'block';
-    }
-
-    function hideLoading() {
-      document.getElementById('loading').style.display = 'none';
-    }
-
     async function fetchTodo() {
       const id = document.getElementById('todoId').value;
       console.log(`Fetching todo with ID: ${id}`);
@@ -29,9 +21,6 @@
         document.getElementById('todoDetails').innerText = JSON.stringify(data, null, 2);
       } catch (error) {
         console.error('Error fetching todo:', error);
-      } finally {
-        hideLoading();
-      }
     }
 
     async function deleteTodo() {
@@ -45,10 +34,9 @@
         document.getElementById('todoDetails').innerText = data.message || 'Todo not found';
       } catch (error) {
         console.error('Error deleting todo:', error);
-      } finally {
-        hideLoading();
-      }
     }
+  }
+}
   </script>
 </head>
 <body>
@@ -56,10 +44,6 @@
   <input type="text" id="todoId" placeholder="Enter Todo ID" />
   <button onclick="fetchTodo()">Find Todo</button>
   <button onclick="deleteTodo()">Delete Todo</button>
-  <div id="loading">
-    <img src="https://media1.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif?cid=6c09b952e6fkfhspd3ubs2ipc1kpv1i9hzvstjtwcwroeurp&ep=v1_gifs_search&rid=giphy.gif&ct=g" alt="Loading" />
-    Loading...
-  </div>
   <pre id="todoDetails"></pre>
 </body>
 </html>
