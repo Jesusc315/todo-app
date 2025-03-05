@@ -9,7 +9,7 @@ async function fetchTodos() {
         const response = await fetch('/api/todos'); // Assuming your API is at /api/todos
         const todos = await response.json();
         displayTodos(todos);
-    } catch (error) {
+        } catch (error) {
         console.error('Error fetching todos:', error);
     }
 }
@@ -35,6 +35,7 @@ function displayTodos(todos) {
 
                 if (response.ok) {
                     alert('Todo deleted');
+                    console.log("deleted todo");
                     fetchTodos(); // Re-fetch the todos after deletion
                 } else {
                     alert('Failed to delete todo');
@@ -62,7 +63,7 @@ todoForm.addEventListener('submit', async (e) => {
     }
 
     const newTodo = { title: todoText };
-    
+    console.log("added Todo");
     // Send POST request to add a new todo
     try {
         const response = await fetch('/api/todos', {
@@ -74,6 +75,7 @@ todoForm.addEventListener('submit', async (e) => {
         if (response.ok) {
             const addedTodo = await response.json();
             displayTodos([addedTodo]); // Re-fetch and display todos
+           
         } else {
             alert('Failed to add todo');
         }
