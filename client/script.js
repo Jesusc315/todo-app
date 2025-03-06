@@ -16,7 +16,7 @@ async function fetchTodos() {
 
 // Display todos in the list
 function displayTodos(todos) {
-    todoList.innerHTML = ''; // Clear the current list
+    // This will append todos to the list, without clearing it
     todos.forEach(todo => {
         const li = document.createElement('li');
         li.textContent = todo.title; // Assuming each todo has a 'title' property
@@ -52,39 +52,43 @@ function displayTodos(todos) {
 }
 
 
+
 // Handle form submission
 todoForm.addEventListener('submit', async (e) => {
-  e.preventDefault();
-    
+    e.preventDefault();
+  
     const todoText = todoInput.value.trim();
     if (!todoText) {
-        alert('Please enter a todo!');
-        return;
+      alert('Please enter a todo!');
+      return;
     }
-
+  
     const newTodo = { title: todoText };
     console.log("added Todo");
+  
     // Send POST request to add a new todo
     try {
-        const response = await fetch('/api/todos', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(newTodo)
-        });
-
-        if (response.ok) {
-            const addedTodo = await response.json();
-            displayTodos([addedTodo]); // Re-fetch and display todos
-           
-        } else {
-            alert('Failed to add todo');
-        }
+      const response = await fetch('/api/todos', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newTodo)
+      });
+  
+      if (response.ok) {
+        const addedTodo = await response.json();
+        // Directly append the new todo to the list
+        displayTodos([addedTodo]); // This now just appends the new todo
+  
+      } else {
+        alert('Failed to add todo');
+      }
     } catch (error) {
-        console.error('Error adding todo:', error);
+      console.error('Error adding todo:', error);
     }
-
+  
     todoInput.value = ''; // Clear input field
-});
+  });
+  
 
 // Load todos when page loads
 fetchTodos();
