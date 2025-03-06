@@ -54,7 +54,7 @@ function displayTodos(todos) {
 
 // Handle form submission
 todoForm.addEventListener('submit', async (e) => {
-   
+  e.preventDefault();
     
     const todoText = todoInput.value.trim();
     if (!todoText) {
