@@ -66,8 +66,13 @@ function displayTodos(todos) {
                         const updatedTodo = await response.json();
                         alert('Todo updated');
                         li.textContent = updatedTodo.title; // Update the title on the DOM
-                        li.appendChild(deleteButton); // Re-append delete button after updating title
-                        li.appendChild(updateButton); // Re-append update button
+
+                        // Re-append buttons after updating
+                        li.appendChild(deleteButton);
+                        li.appendChild(updateButton);
+
+                        // Optionally, reload the todos list or the page
+                        // fetchTodos(); // Uncomment this to reload the entire list without refreshing the page
                     } else {
                         alert('Failed to update todo');
                     }
@@ -75,6 +80,7 @@ function displayTodos(todos) {
                     console.error('Error updating todo:', error);
                 }
             }
+            fetchTodos();
         });
 
         // Append buttons to the list item
