@@ -18,7 +18,6 @@ async function fetchTodos() {
 function displayTodos(todos) {
     todoList.innerHTML = ''; // Clear the current list
 
-    // This will append todos to the list when the page loads
     todos.forEach(todo => {
         const li = document.createElement('li');
         li.textContent = todo.title; // Assuming each todo has a 'title' property
@@ -47,8 +46,42 @@ function displayTodos(todos) {
             }
         });
 
-        // Append the delete button to the list item
+        // Create an update button for each todo
+        const updateButton = document.createElement('button');
+        updateButton.textContent = 'Update';
+        updateButton.style.marginLeft = '10px';
+
+        // Add event listener to the update button
+        updateButton.addEventListener('click', async () => {
+            const newTitle = prompt('Enter new title', todo.title);
+            if (newTitle && newTitle !== todo.title) {
+                try {
+                    const response = await fetch(`/api/todos/${todo._id}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ title: newTitle })
+                    });
+
+                    if (response.ok) {
+                        const updatedTodo = await response.json();
+                        alert('Todo updated');
+                        li.textContent = updatedTodo.title; // Update the title on the DOM
+                        li.appendChild(deleteButton); // Re-append delete button after updating title
+                        li.appendChild(updateButton); // Re-append update button
+                    } else {
+                        alert('Failed to update todo');
+                    }
+                } catch (error) {
+                    console.error('Error updating todo:', error);
+                }
+            }
+        });
+
+        // Append buttons to the list item
         li.appendChild(deleteButton);
+        li.appendChild(updateButton);
+
+        // Append the list item to the todo list
         todoList.appendChild(li);
     });
 }
@@ -78,7 +111,6 @@ todoForm.addEventListener('submit', async (e) => {
             const addedTodo = await response.json();
             // Directly append the new todo to the list (without re-fetching all todos)
             displayNewTodo(addedTodo);
-
         } else {
             alert('Failed to add todo');
         }
@@ -116,8 +148,42 @@ function displayNewTodo(todo) {
         }
     });
 
+    // Create update button for new todo
+    const updateButton = document.createElement('button');
+    updateButton.textContent = 'Update';
+    updateButton.style.marginLeft = '10px';
+
+    updateButton.addEventListener('click', async () => {
+        const newTitle = prompt('Enter new title', todo.title);
+        if (newTitle && newTitle !== todo.title) {
+            try {
+                const response = await fetch(`/api/todos/${todo._id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ title: newTitle })
+                });
+
+                if (response.ok) {
+                    const updatedTodo = await response.json();
+                    alert('Todo updated');
+                    li.textContent = updatedTodo.title; // Update the title on the DOM
+                    li.appendChild(deleteButton); // Re-append delete button after updating title
+                    li.appendChild(updateButton); // Re-append update button
+                } else {
+                    alert('Failed to update todo');
+                }
+            } catch (error) {
+                console.error('Error updating todo:', error);
+            }
+        }
+    });
+
+    // Append buttons to the list item
     li.appendChild(deleteButton);
-    todoList.appendChild(li); // Append the new todo to the end of the list
+    li.appendChild(updateButton);
+
+    // Append the new todo item to the list
+    todoList.appendChild(li);
 }
 
 // Load todos when page loads
