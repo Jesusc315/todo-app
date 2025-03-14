@@ -80,7 +80,7 @@ function displayTodos(todos) {
                     console.error('Error updating todo:', error);
                 }
             }
-            fetchTodos();
+            
         });
 
         // Append buttons to the list item
