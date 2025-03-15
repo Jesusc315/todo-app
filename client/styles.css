@@ -36,3 +36,71 @@ li {
     padding: 10px;
     border-bottom: 1px solid #ddd;
 }
+/* General styling for the todo list */
+#todoList {
+  list-style-type: none;
+  padding: 0;
+}
+
+#todoList li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  margin: 5px 0;
+  background-color: #f8f8f8;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+button {
+  padding: 8px 16px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+  transform: scale(1.05); /* Slightly enlarge the button on hover */
+}
+
+.delete-btn {
+  background-color: #ff4d4d; /* Red for delete */
+  color: white;
+}
+
+.delete-btn:hover {
+  background-color: #e60000; /* Darker red when hovering */
+}
+
+.update-btn {
+  background-color: #4d94ff; /* Blue for update */
+  color: white;
+}
+
+.update-btn:hover {
+  background-color: #0066cc; /* Darker blue when hovering */
+}
+
+/* Add styles for form inputs */
+#todoInput {
+  padding: 8px 12px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  margin-right: 10px;
+}
+
+button[type="submit"] {
+  background-color: #28a745; /* Green for submit button */
+  color: white;
+}
+
+button[type="submit"]:hover {
+  background-color: antiquewhite; /* Lighter green when hovering */
+    color: black;
+}

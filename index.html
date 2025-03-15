@@ -39,35 +39,42 @@
     }
 
     async function updateTodo() {
-      const id = document.getElementById('todoId').value;
-      console.log(`Updating todo with ID: ${id}`);
+  const id = document.getElementById('todoId').value;
+  console.log(`Updating todo with ID: ${id}`);
+  
+  const title = prompt('Enter new title:');
+  const completed = confirm('Is the todo completed?');
+  
+  const body = JSON.stringify({ title, completed });
+  
+  try {
+    const response = await fetch(`/todos/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: body
+    });
+    
+    if (response.ok) {
+      const updatedTodo = await response.json();
+      console.log('Todo updated:', updatedTodo);
+
+      // Dynamically update the UI with the updated todo
+      document.getElementById('todoDetails').innerText = `Updated Todo: ${JSON.stringify(updatedTodo, null, 2)}`;
       
-      const title = prompt('Enter new title:');
-      const completed = confirm('Is the todo completed?');
+      // Optionally, if you're displaying a list of todos elsewhere, you could update that as well
+      // For example, if you have a todo list:
+      // updateTodoInList(id, updatedTodo);
       
-      const body = JSON.stringify({ title, completed });
-      
-      try {
-        const response = await fetch(`/todos/${id}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: body
-        });
-        
-        if (response.ok) {
-          const updatedTodo = await response.json();
-          console.log('Todo updated:', updatedTodo);
-          document.getElementById('todoDetails').innerText = `Updated Todo: ${JSON.stringify(updatedTodo, null, 2)}`;
-        } else {
-          const error = await response.json();
-          console.error('Failed to update todo:', error);
-          document.getElementById('todoDetails').innerText = `Failed to update todo: ${error.message}`;
-        }
-      } catch (error) {
-        console.error('Error updating todo:', error);
-        document.getElementById('todoDetails').innerText = 'Error updating todo';
-      }
+    } else {
+      const error = await response.json();
+      console.error('Failed to update todo:', error);
+      document.getElementById('todoDetails').innerText = `Failed to update todo: ${error.message}`;
     }
+  } catch (error) {
+    console.error('Error updating todo:', error);
+    document.getElementById('todoDetails').innerText = 'Error updating todo';
+  }
+}
   </script>
 </head>
 <body>
